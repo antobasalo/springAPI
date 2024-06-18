@@ -1,1 +1,6 @@
+com/basalo/runnerz/run/RunRepository.class
+com/basalo/runnerz/run/RunNotFoundException.class
+com/basalo/runnerz/run/RunController.class
 com/basalo/runnerz/RunnerzApplication.class
+com/basalo/runnerz/run/Location.class
+com/basalo/runnerz/run/Run.class

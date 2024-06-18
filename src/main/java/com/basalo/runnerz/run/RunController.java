@@ -1,9 +1,8 @@
 package com.basalo.runnerz.run;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +11,9 @@ import java.util.Optional;
 @RequestMapping("/api/runs")
 public class RunController {
 
-    private final RunRepository runRepository;
+    private final JdbcRunRepository runRepository;
 
-    public RunController(RunRepository runRepository) {
+    public RunController(JdbcRunRepository runRepository) {
         this.runRepository = runRepository;
     }
 
@@ -27,7 +26,7 @@ public class RunController {
     Run findById(@PathVariable Integer id) {
         Optional<Run> run = runRepository.findById(id);
         if (run.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new RunNotFoundException();
         }
         return run.get();
     }
@@ -35,13 +34,13 @@ public class RunController {
     //post
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    void create(@RequestBody Run run) {
+    void create(@Valid @RequestBody Run run) {
         runRepository.create(run);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    void update(@RequestBody Run run, @PathVariable Integer id) {
+    void update(@Valid @RequestBody Run run, @PathVariable Integer id) {
         runRepository.update(run, id);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
